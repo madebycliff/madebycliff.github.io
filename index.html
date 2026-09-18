@@ -115,11 +115,35 @@
   .mark {
     margin-top: 5rem;
     text-align: center;
+  }
+  .mark button {
+    pointer-events: auto;
+    appearance: none;
+    background: none;
+    font: inherit;
     color: var(--faint);
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    padding: 16px;
+    line-height: 0;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease,
+                transform 0.15s ease, box-shadow 0.2s ease;
+  }
+  .mark button:hover {
+    color: var(--heading);
+    border-color: var(--faint);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+  }
+  .mark button:active {
+    transform: translateY(0) scale(0.94);
+    box-shadow: none;
   }
   .mark svg {
     width: 65px;
     height: 65px;
+    display: block;
   }
   .item { margin-bottom: 1.5rem; }
   .item .name { color: var(--heading); display: block; }
@@ -229,14 +253,16 @@
   <a href="https://github.com/madebycliff">GitHub</a> and <a href="https://instagram.com/madebycliff">Instagram</a>.</p>
 
   <div class="mark">
-    <svg viewBox="0 0 200 200" role="img" aria-label="Made By Cliff">
-      <g fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M175.5 91 A76 76 0 1 0 175.5 109"/>
-        <path d="M46 100 L73 52 L100 94 L127 52 L154 100"/>
-        <path d="M46 118 H154"/>
-        <path d="M46 118 L73 146 L100 118 L127 146 L154 118"/>
-      </g>
-    </svg>
+    <button type="button" aria-label="Made By Cliff — play a sound">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M175.5 91 A76 76 0 1 0 175.5 109"/>
+          <path d="M46 100 L73 52 L100 94 L127 52 L154 100"/>
+          <path d="M46 118 H154"/>
+          <path d="M46 118 L73 146 L100 118 L127 146 L154 118"/>
+        </g>
+      </svg>
+    </button>
   </div>
 </main>
 
