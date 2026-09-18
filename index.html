@@ -70,7 +70,7 @@
     z-index: 1;
     max-width: 33rem;
     margin: 0 auto;
-    padding: 6rem 1.5rem 8rem;
+    padding: 6rem 1.5rem 6rem;
     pointer-events: none;
   }
   main a { pointer-events: auto; }
@@ -115,6 +115,9 @@
   .mark {
     margin-top: 5rem;
     text-align: center;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .mark { transition: margin-bottom 1.2s ease; }
   }
   .mark button {
     pointer-events: auto;
@@ -299,6 +302,15 @@
   var audio = null;
   var instrument = 'piano';
   var SCALE = [0, 3, 5, 7, 10, 12, 15, 17, 19, 22, 24]; // minor pentatonic
+
+  // vertical note geometry: a dead zone at the top and bottom of the
+  // viewport, with the space between divided into the scale's rows.
+  // The dot grid, the pitch mapping and the mark's climb all share it.
+  function noteGeom() {
+    var h = window.innerHeight;
+    var pad = h * 0.09;
+    return { h: h, pad: pad, sv: (h - 2 * pad) / (SCALE.length - 1) };
+  }
 
   function ac() {
     if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
@@ -601,8 +613,10 @@
 
   function play(x, y) {
     var a = ac();
-    var u = Math.min(Math.max(1 - y / window.innerHeight, 0), 1);
-    var idx = Math.floor(u * (SCALE.length - 1));
+    var g = noteGeom();
+    var yc = Math.min(Math.max(y, g.pad), g.h - g.pad);
+    var u = (g.h - g.pad - yc) / (g.h - 2 * g.pad);
+    var idx = Math.round(u * (SCALE.length - 1)); // snap to nearest note row
     var freq = 220 * Math.pow(2, SCALE[idx] / 12);
     voices[instrument](a, freq, a.currentTime, u);
   }
@@ -618,6 +632,34 @@
     });
     var a = ac();
     voices[instrument](a, 220 * Math.pow(2, 12 / 12), a.currentTime, 0.1); // preview note
+  });
+
+  // the mark rises: each press adds space below it (view stays pinned
+  // to the page bottom), so the next press lands on a higher note
+  var markEl = document.querySelector('.mark');
+  var markSpace = 0;
+  var markPresses = 0;
+  markEl.querySelector('button').addEventListener('click', function () {
+    // one scale degree per press: the viewport divides into
+    // SCALE.length - 1 pitch steps. After the 10th press (top of the
+    // scale), glide back down and start over.
+    markPresses++;
+    if (markPresses >= 10) {
+      markPresses = 0;
+      markSpace = 0;
+    } else {
+      markSpace += noteGeom().sv; // one note row per press
+    }
+    markEl.style.marginBottom = markSpace + 'px';
+    // keep the user the same distance from the page bottom they were
+    // at when they pressed (0 = stretch the bottom under them)
+    var doc = document.documentElement;
+    var dist = Math.max(0, doc.scrollHeight - (window.scrollY + window.innerHeight));
+    var until = performance.now() + 1300;
+    (function pin() {
+      window.scrollTo(0, doc.scrollHeight - window.innerHeight - dist);
+      if (performance.now() < until) requestAnimationFrame(pin);
+    })();
   });
 
   // --- dot field -------------------------------------------------------
@@ -645,9 +687,11 @@
     canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     dots = [];
+    // rows sit exactly on the note lines; columns keep a fixed rhythm
+    var g = noteGeom();
     var offX = (w % SPACING) / 2;
-    var offY = (h % SPACING) / 2;
-    for (var y = offY; y <= h; y += SPACING) {
+    for (var k = 0; k < SCALE.length; k++) {
+      var y = g.pad + k * g.sv;
       for (var x = offX; x <= w; x += SPACING) {
         dots.push({ ox: x, oy: y, x: x, y: y, vx: 0, vy: 0, glow: 0 });
       }
