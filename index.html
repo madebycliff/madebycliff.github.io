@@ -1,1 +1,646 @@
-Hello GP
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>James Clifford</title>
+<meta name="description" content="James Clifford — maker and tech-for-good engineer. Interested in startups and social enterprise.">
+<style>
+  :root {
+    --bg: #fdfdfd;
+    --heading: #111111;
+    --text: #6b6b6b;
+    --faint: #a3a3a3;
+    --rule: #ececec;
+    --dot: 17, 17, 17;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101010;
+      --heading: #ededed;
+      --text: #8f8f8f;
+      --faint: #626262;
+      --rule: #232323;
+      --dot: 237, 237, 237;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  #field {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 33rem;
+    margin: 0 auto;
+    padding: 6rem 1.5rem 8rem;
+    pointer-events: none;
+  }
+  main a { pointer-events: auto; }
+  h1 {
+    color: var(--heading);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .avatar {
+    position: absolute;
+    top: 4.2rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: block;
+  }
+  .intro { margin-top: 2.5rem; }
+  .intro em {
+    font-family: Charter, Georgia, serif;
+    font-style: italic;
+    color: var(--heading);
+    letter-spacing: 0.01em;
+  }
+  h2 {
+    color: var(--heading);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 4rem 0 1rem;
+    letter-spacing: -0.01em;
+  }
+  p { margin: 0 0 1rem; }
+  a {
+    color: var(--heading);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    transition: border-color 0.15s ease;
+  }
+  a:hover { border-color: var(--heading); }
+  .item { margin-bottom: 1.5rem; }
+  .item .name { color: var(--heading); display: block; }
+  .item .desc { margin: 0; }
+  #instruments {
+    position: fixed;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(253, 253, 253, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  @media (prefers-color-scheme: dark) {
+    #instruments { background: rgba(16, 16, 16, 0.8); }
+  }
+  #instruments button {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    margin: 0;
+    cursor: pointer;
+    color: var(--faint);
+    opacity: 0.55;
+    transition: opacity 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    line-height: 0;
+  }
+  #instruments button:hover { opacity: 1; }
+  #instruments button[aria-pressed="true"] {
+    color: var(--heading);
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  #instruments svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  @media (max-width: 540px) {
+    #instruments { gap: 0; padding: 0.25rem 0.5rem; }
+    #instruments button { padding: 0.4rem 0.3rem; }
+    #instruments svg { width: 19px; height: 19px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+<main>
+  <img class="avatar" src="https://avatars.githubusercontent.com/u/3214978?v=4&amp;s=160" alt="James Clifford" width="56" height="56">
+  <h1>James Clifford</h1>
+
+  <div class="intro">
+    <p><em>Making things with meaning.</em> I make software, hardware
+    and woodware that tries to leave the world a little better than we
+    found it.</p>
+    <p>I am drawn to social enterprise and startups where the greatest
+    connections can be made between the work we do and the impact we
+    can have, while enjoying the people and the projects along the way.</p>
+  </div>
+
+  <h2>Environment and social</h2>
+  <p>I lead engineering at <a href="https://food.cloud">FoodCloud</a>,
+  a social enterprise built on a simple idea with a double impact:
+  no good food should go to waste when people are hungry. Every meal
+  we redistribute avoids the emissions of growing, transporting and
+  disposing of food that would otherwise be thrown away — and lands
+  instead with community groups and charities across Ireland, the UK
+  and beyond. The environmental win and the social win are the same
+  transaction.</p>
+
+  <h2>Interests</h2>
+  <div class="item">
+    <span class="name">Music &amp; events</span>
+    <p class="desc">Before software I lived in the events industry —
+    sound engineer, stage manager and lighting designer — and played
+    drums in a band. I still think in signal chains, set lists and
+    stage plots.</p>
+  </div>
+  <div class="item">
+    <span class="name">Interactive 3D planner</span>
+    <p class="desc">I developed interactive portals for event managers,
+    designers and producers to collaborate on an event virtually.</p>
+  </div>
+  <div class="item">
+    <span class="name">Multifunctional furniture</span>
+    <p class="desc">Inspired by small space and boat designs, I have
+    created unique space saving furniture pieces such as vertical
+    murphy beds, camper boxes and garden rooms.</p>
+  </div>
+
+  <h2>Connect</h2>
+  <p>Find me on <a href="https://instagram.com/madebycliff">Instagram</a>,
+  <a href="https://www.linkedin.com/in/jamescliffordireland/">LinkedIn</a> and <a href="https://github.com/madebycliff">GitHub</a>.</p>
+</main>
+
+<div id="instruments" role="group" aria-label="Choose a click sound">
+  <button data-inst="bell" aria-label="Bike bell" title="Bike bell">
+    <svg viewBox="0 0 24 24"><circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l4-8h5M9 9h4m2 0l3 8m-8 0h4l-4-6"/></svg>
+  </button>
+  <button data-inst="drum" aria-label="Drums" title="Drums">
+    <svg viewBox="0 0 24 24"><ellipse cx="12" cy="11" rx="7" ry="2.5"/><path d="M5 11v6c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-6"/><path d="M6.5 3l4.5 6M17.5 3L13 9"/></svg>
+  </button>
+  <button data-inst="guitar" aria-label="Guitar" title="Guitar">
+    <svg viewBox="0 0 24 24"><path d="M9.5 12.5c-1.2-.4-2.8 0-3.8 1-1.6 1.6-1.8 4.6-.3 6.1s4.5 1.3 6.1-.3c1-1 1.4-2.6 1-3.8"/><path d="M9.5 12.5L19 3m-2.5.5L20 6l1-1-2.5-2.5z"/><circle cx="9" cy="15" r="1.2"/></svg>
+  </button>
+  <button data-inst="doorbell" aria-label="Doorbell" title="Doorbell">
+    <svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"/><circle cx="12" cy="9" r="2"/><path d="M10.5 15h3"/></svg>
+  </button>
+  <button data-inst="piano" aria-label="Piano" title="Piano" aria-pressed="true">
+    <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M8 6v12M13 6v12M18 6v12M6.5 6v7h3V6m2 0v7h3V6m2 0v7h3" stroke-width="1.2"/></svg>
+  </button>
+  <button data-inst="voice" aria-label="Voice" title="Voice">
+    <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+  </button>
+  <button data-inst="wood" aria-label="Workshop" title="Workshop">
+    <svg viewBox="0 0 24 24"><path d="M12 9l-8 8 2.5 2.5 8-8"/><path d="M10 5l4-2 5 3 2 4-2 1-3-2-3 2-3-3z"/></svg>
+  </button>
+</div>
+
+<script>
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas = document.getElementById('field');
+
+  // --- audio -----------------------------------------------------------
+  var audio = null;
+  var instrument = 'piano';
+  var SCALE = [0, 3, 5, 7, 10, 12, 15, 17, 19, 22, 24]; // minor pentatonic
+
+  function ac() {
+    if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
+    if (audio.state === 'suspended') audio.resume();
+    return audio;
+  }
+
+  function env(a, t, peak, attack, decay) {
+    var g = a.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(peak, t + attack);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + decay);
+    return g;
+  }
+
+  function tone(a, t, type, freq, peak, attack, decay, dest) {
+    var o = a.createOscillator();
+    o.type = type;
+    o.frequency.value = freq;
+    var g = env(a, t, peak, attack, decay);
+    o.connect(g); g.connect(dest || a.destination);
+    o.start(t); o.stop(t + decay + 0.1);
+    return o;
+  }
+
+  function noiseBuffer(a, dur) {
+    var b = a.createBuffer(1, Math.round(a.sampleRate * (dur || 0.2)), a.sampleRate);
+    var d = b.getChannelData(0);
+    for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    return b;
+  }
+
+  function noiseHit(a, t, dur, type, freq, q, peak, decay) {
+    var n = a.createBufferSource();
+    n.buffer = noiseBuffer(a, dur);
+    var fl = a.createBiquadFilter();
+    fl.type = type; fl.frequency.value = freq;
+    if (q) fl.Q.value = q;
+    var g = env(a, t, peak, 0.002, decay);
+    n.connect(fl); fl.connect(g); g.connect(a.destination);
+    n.start(t); n.stop(t + dur);
+  }
+
+  var voices = {
+    // bright bell: the piano voice transposed two octaves up,
+    // single strike
+    bell: function (a, f, t) {
+      var base = f * 8;
+      tone(a, t, 'sine', base, 0.10, 0.004, 1.1);
+      tone(a, t, 'triangle', base * 2.003, 0.008, 0.004, 0.6);
+    },
+    // a kit laid out up the page: kick at the bottom, then snare,
+    // toms, hi-hat, crash, and a cowbell at the very top
+    drum: function (a, f, t, u) {
+      if (u == null) u = 0.4;
+      if (u < 0.18) { // kick
+        var o = a.createOscillator();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(110, t);
+        o.frequency.exponentialRampToValueAtTime(40, t + 0.12);
+        var g = env(a, t, 0.55, 0.003, 0.4);
+        o.connect(g); g.connect(a.destination);
+        o.start(t); o.stop(t + 0.5);
+        noiseHit(a, t, 0.05, 'highpass', 2500, 0, 0.05, 0.03);
+      } else if (u < 0.34) { // snare
+        tone(a, t, 'triangle', 190, 0.14, 0.002, 0.16);
+        noiseHit(a, t, 0.25, 'bandpass', 1800, 0.8, 0.22, 0.18);
+      } else if (u < 0.60) { // toms, low to high
+        var f0 = 90 + ((u - 0.34) / 0.26) * 130;
+        var o2 = a.createOscillator();
+        o2.type = 'sine';
+        o2.frequency.setValueAtTime(f0, t);
+        o2.frequency.exponentialRampToValueAtTime(f0 * 0.6, t + 0.2);
+        var g2 = env(a, t, 0.35, 0.003, 0.35);
+        o2.connect(g2); g2.connect(a.destination);
+        o2.start(t); o2.stop(t + 0.5);
+        noiseHit(a, t, 0.04, 'highpass', 3000, 0, 0.04, 0.025);
+      } else if (u < 0.74) { // hi-hat
+        noiseHit(a, t, 0.1, 'highpass', 7500, 0, 0.14, 0.06);
+      } else if (u < 0.88) { // crash
+        noiseHit(a, t, 1.4, 'highpass', 4500, 0, 0.16, 1.2);
+        noiseHit(a, t, 1.4, 'bandpass', 9000, 0.5, 0.08, 0.9);
+      } else { // cowbell: hard knock, tight and clocky
+        var bp = a.createBiquadFilter();
+        bp.type = 'bandpass'; bp.frequency.value = 1400; bp.Q.value = 2.2;
+        var g3 = env(a, t, 0.5, 0.001, 0.13);
+        [560, 845].forEach(function (fr) {
+          var o3 = a.createOscillator();
+          o3.type = 'square';
+          o3.frequency.value = fr;
+          o3.connect(bp);
+          o3.start(t); o3.stop(t + 0.2);
+        });
+        bp.connect(g3); g3.connect(a.destination);
+        noiseHit(a, t, 0.03, 'highpass', 4000, 0, 0.06, 0.02);
+      }
+    },
+    // rock guitar: low power chord, dark pick excitation so the strings
+    // growl instead of ring, heavy tanh drive into a cab-style lowpass
+    guitar: function (a, f, t) {
+      var sr = a.sampleRate;
+      var len = Math.round(sr * 1.4);
+      var buf = a.createBuffer(1, len, sr);
+      var d = buf.getChannelData(0);
+      // an octave down: root, fifth, octave of the low root
+      [0.25, 0.375, 0.5].forEach(function (m) {
+        var N = Math.round(sr / (f * m));
+        var line = new Float32Array(len);
+        var i, lp = 0;
+        // lowpass the pick noise so the attack is a thud, not a zing
+        for (i = 0; i < N; i++) {
+          lp += 0.25 * ((Math.random() * 2 - 1) - lp);
+          line[i] = lp * 3;
+        }
+        for (i = N; i < len; i++) line[i] = 0.994 * 0.5 * (line[i - N] + line[i - N + 1]);
+        for (i = 0; i < len; i++) d[i] += line[i] / 3;
+      });
+      var s = a.createBufferSource();
+      s.buffer = buf;
+      var shaper = a.createWaveShaper();
+      var curve = new Float32Array(1024);
+      for (var i = 0; i < 1024; i++) {
+        curve[i] = Math.tanh((i / 512 - 1) * 7);
+      }
+      shaper.curve = curve;
+      shaper.oversample = '2x';
+      var lp2 = a.createBiquadFilter();
+      lp2.type = 'lowpass'; lp2.frequency.value = 2200; lp2.Q.value = 0.9;
+      var g = a.createGain();
+      g.gain.value = 0.17;
+      s.connect(shaper); shaper.connect(lp2); lp2.connect(g);
+      g.connect(a.destination);
+      s.start(t);
+    },
+    // classic two-tone ding-dong, second note a third below
+    doorbell: function (a, f, t) {
+      tone(a, t,        'sine', f,       0.14, 0.01, 0.8);
+      tone(a, t,        'sine', f * 2,   0.03, 0.01, 0.4);
+      tone(a, t + 0.28, 'sine', f * 0.8, 0.14, 0.01, 1.0);
+      tone(a, t + 0.28, 'sine', f * 1.6, 0.03, 0.01, 0.5);
+    },
+    // the original warm pluck: sine plus faint detuned octave
+    piano: function (a, f, t) {
+      tone(a, t, 'sine', f, 0.12, 0.008, 1.4);
+      tone(a, t, 'triangle', f * 2.003, 0.014, 0.008, 1.0);
+      tone(a, t, 'sine', f * 3, 0.012, 0.008, 0.5);
+    },
+    // hand saw: three back-and-forth strokes of swept, bandpassed noise
+    saw: function (a, f, t) {
+      for (var k = 0; k < 3; k++) {
+        var st = t + k * 0.28;
+        var n = a.createBufferSource();
+        n.buffer = noiseBuffer(a, 0.3);
+        var bp = a.createBiquadFilter();
+        bp.type = 'bandpass'; bp.Q.value = 1.4;
+        bp.frequency.setValueAtTime(650, st);
+        bp.frequency.linearRampToValueAtTime(1100, st + 0.12);
+        bp.frequency.linearRampToValueAtTime(550, st + 0.25);
+        var g = a.createGain();
+        g.gain.setValueAtTime(0.0001, st);
+        g.gain.linearRampToValueAtTime(0.20, st + 0.05);
+        g.gain.linearRampToValueAtTime(0.12, st + 0.16);
+        g.gain.linearRampToValueAtTime(0.0001, st + 0.27);
+        n.connect(bp); bp.connect(g); g.connect(a.destination);
+        n.start(st); n.stop(st + 0.3);
+      }
+    },
+    // hammer: thump plus wood knock, with a lighter bounce after
+    hammer: function (a, f, t) {
+      [0, 0.13].forEach(function (dt, i) {
+        var v = i ? 0.45 : 1;
+        var o = a.createOscillator();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(150, t + dt);
+        o.frequency.exponentialRampToValueAtTime(55, t + dt + 0.08);
+        var g = env(a, t + dt, 0.45 * v, 0.002, 0.13);
+        o.connect(g); g.connect(a.destination);
+        o.start(t + dt); o.stop(t + dt + 0.2);
+        noiseHit(a, t + dt, 0.06, 'bandpass', 1100, 1, 0.18 * v, 0.045);
+      });
+    },
+    // drill: motor buzz that revs up; click height sets the speed
+    drill: function (a, f, t, u) {
+      if (u == null) u = 0.5;
+      var base = 65 + u * 70;
+      var dur = 0.9;
+      var g = a.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.linearRampToValueAtTime(0.14, t + 0.06);
+      g.gain.setValueAtTime(0.14, t + dur - 0.18);
+      g.gain.linearRampToValueAtTime(0.0001, t + dur);
+      [[1, 0.5, 'square'], [2, 0.28, 'sawtooth'], [3.02, 0.14, 'sawtooth'], [4.1, 0.08, 'sawtooth']]
+        .forEach(function (p) {
+          var o = a.createOscillator();
+          o.type = p[2];
+          o.frequency.setValueAtTime(base * p[0] * 0.6, t);
+          o.frequency.linearRampToValueAtTime(base * p[0], t + 0.18);
+          var og = a.createGain();
+          og.gain.value = p[1];
+          o.connect(og); og.connect(g);
+          o.start(t); o.stop(t + dur);
+        });
+      var n = a.createBufferSource();
+      n.buffer = noiseBuffer(a, dur);
+      var hp = a.createBiquadFilter();
+      hp.type = 'highpass'; hp.frequency.value = 3500;
+      var ng = a.createGain();
+      ng.gain.value = 0.2;
+      n.connect(hp); hp.connect(ng); ng.connect(g);
+      n.start(t); n.stop(t + dur);
+      g.connect(a.destination);
+    },
+    // circular saw: whine spins up, then the blade bites into the wood
+    power: function (a, f, t) {
+      var dur = 1.5;
+      var g = a.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.linearRampToValueAtTime(0.10, t + 0.3);
+      g.gain.setValueAtTime(0.10, t + dur - 0.25);
+      g.gain.linearRampToValueAtTime(0.0001, t + dur);
+      [[1, 0.5], [1.98, 0.3], [3.1, 0.18]].forEach(function (p) {
+        var o = a.createOscillator();
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(90 * p[0], t);
+        o.frequency.exponentialRampToValueAtTime(240 * p[0], t + 0.35);
+        o.frequency.setValueAtTime(240 * p[0], t + 0.5);
+        o.frequency.linearRampToValueAtTime(210 * p[0], t + 0.65); // bogs down in the cut
+        o.frequency.linearRampToValueAtTime(240 * p[0], t + 1.1);
+        var og = a.createGain();
+        og.gain.value = p[1];
+        o.connect(og); og.connect(g);
+        o.start(t); o.stop(t + dur);
+      });
+      // the cut: harsh noise once the blade meets timber
+      var n = a.createBufferSource();
+      n.buffer = noiseBuffer(a, dur);
+      var bp = a.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = 2400; bp.Q.value = 0.6;
+      var ng = a.createGain();
+      ng.gain.setValueAtTime(0.0001, t);
+      ng.gain.setValueAtTime(0.0001, t + 0.5);
+      ng.gain.linearRampToValueAtTime(0.5, t + 0.62);
+      ng.gain.setValueAtTime(0.5, t + dur - 0.3);
+      ng.gain.linearRampToValueAtTime(0.0001, t + dur - 0.1);
+      n.connect(bp); bp.connect(ng); ng.connect(g);
+      n.start(t); n.stop(t + dur);
+      g.connect(a.destination);
+    },
+    // sanding: two soft, slow strokes of lowpassed noise
+    sander: function (a, f, t) {
+      [0, 0.5].forEach(function (dt) {
+        var st = t + dt;
+        var n = a.createBufferSource();
+        n.buffer = noiseBuffer(a, 0.5);
+        var lp = a.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.setValueAtTime(900, st);
+        lp.frequency.linearRampToValueAtTime(1600, st + 0.2);
+        lp.frequency.linearRampToValueAtTime(800, st + 0.45);
+        var g = a.createGain();
+        g.gain.setValueAtTime(0.0001, st);
+        g.gain.linearRampToValueAtTime(0.22, st + 0.12);
+        g.gain.linearRampToValueAtTime(0.0001, st + 0.48);
+        n.connect(lp); lp.connect(g); g.connect(a.destination);
+        n.start(st); n.stop(st + 0.5);
+      });
+    },
+    // workshop: tools laid out up the page like the drum kit —
+    // hammer at the bottom, then hand saw, sander, drill, circular saw
+    wood: function (a, f, t, u) {
+      if (u == null) u = 0.1;
+      if (u < 0.22) voices.hammer(a, f, t);
+      else if (u < 0.45) voices.saw(a, f, t);
+      else if (u < 0.62) voices.sander(a, f, t);
+      else if (u < 0.82) voices.drill(a, f, t, (u - 0.62) / 0.2);
+      else voices.power(a, f, t);
+    },
+    // "aah": sawtooth through two formant bandpasses with vibrato
+    voice: function (a, f, t) {
+      var o = a.createOscillator();
+      o.type = 'sawtooth';
+      o.frequency.value = f * 0.5;
+      var vib = a.createOscillator();
+      vib.frequency.value = 5.5;
+      var vibG = a.createGain();
+      vibG.gain.value = f * 0.012;
+      vib.connect(vibG); vibG.connect(o.frequency);
+      var master = env(a, t, 0.35, 0.06, 1.3);
+      [[700, 5], [1200, 8]].forEach(function (fm) {
+        var bp = a.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = fm[0];
+        bp.Q.value = fm[1];
+        o.connect(bp); bp.connect(master);
+      });
+      master.connect(a.destination);
+      o.start(t); vib.start(t);
+      o.stop(t + 1.5); vib.stop(t + 1.5);
+    }
+  };
+
+  function play(x, y) {
+    var a = ac();
+    var u = Math.min(Math.max(1 - y / window.innerHeight, 0), 1);
+    var idx = Math.floor(u * (SCALE.length - 1));
+    var freq = 220 * Math.pow(2, SCALE[idx] / 12);
+    voices[instrument](a, freq, a.currentTime, u);
+  }
+
+  // instrument picker
+  var picker = document.getElementById('instruments');
+  picker.addEventListener('click', function (e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    instrument = btn.dataset.inst;
+    picker.querySelectorAll('button').forEach(function (b) {
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    var a = ac();
+    voices[instrument](a, 220 * Math.pow(2, 12 / 12), a.currentTime, 0.1); // preview note
+  });
+
+  // --- dot field -------------------------------------------------------
+  if (reduced) { canvas.remove(); return; }
+
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var dots = [];
+  var SPACING = 56;
+  var mouse = { x: -9999, y: -9999 };
+  var w, h;
+
+  function dotColor() {
+    return getComputedStyle(document.documentElement)
+      .getPropertyValue('--dot').trim();
+  }
+  var rgb = dotColor();
+  window.matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', function () { rgb = dotColor(); });
+
+  function build() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    dots = [];
+    var offX = (w % SPACING) / 2;
+    var offY = (h % SPACING) / 2;
+    for (var y = offY; y <= h; y += SPACING) {
+      for (var x = offX; x <= w; x += SPACING) {
+        dots.push({ ox: x, oy: y, x: x, y: y, vx: 0, vy: 0, glow: 0 });
+      }
+    }
+  }
+  build();
+  window.addEventListener('resize', build);
+
+  window.addEventListener('pointermove', function (e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+  window.addEventListener('pointerleave', function () {
+    mouse.x = -9999; mouse.y = -9999;
+  });
+
+  // 'click' (not pointerdown): fires only on a real mouse click or a
+  // completed tap, never when a touch scroll or drag begins
+  window.addEventListener('click', function (e) {
+    if (e.target && e.target.closest && e.target.closest('a, #instruments')) return;
+    play(e.clientX, e.clientY);
+    for (var i = 0; i < dots.length; i++) {
+      var d = dots[i];
+      var dx = d.ox - e.clientX;
+      var dy = d.oy - e.clientY;
+      var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      if (dist < 220) {
+        var force = (1 - dist / 220) * 18;
+        d.vx += (dx / dist) * force;
+        d.vy += (dy / dist) * force;
+        d.glow = Math.max(d.glow, 1 - dist / 220);
+      }
+    }
+  });
+
+  function frame() {
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < dots.length; i++) {
+      var d = dots[i];
+      var dx = d.x - mouse.x;
+      var dy = d.y - mouse.y;
+      var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      if (dist < 120) {
+        var push = (1 - dist / 120) * 1.6;
+        d.vx += (dx / dist) * push;
+        d.vy += (dy / dist) * push;
+      }
+      d.vx += (d.ox - d.x) * 0.02;
+      d.vy += (d.oy - d.y) * 0.02;
+      d.vx *= 0.88;
+      d.vy *= 0.88;
+      d.x += d.vx;
+      d.y += d.vy;
+      d.glow *= 0.94;
+      var alpha = 0.18 + d.glow * 0.5;
+      var r = 1.1 + d.glow * 1.6;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + rgb + ',' + alpha.toFixed(3) + ')';
+      ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>
