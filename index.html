@@ -367,11 +367,10 @@
       tone(a, t + 0.28, 'sine', f * 0.8, 0.14, 0.01, 1.0);
       tone(a, t + 0.28, 'sine', f * 1.6, 0.03, 0.01, 0.5);
     },
-    // the original warm pluck: sine plus faint detuned octave
+    // the original warm pluck: sine plus a very faint detuned octave
     piano: function (a, f, t) {
       tone(a, t, 'sine', f, 0.12, 0.008, 1.4);
-      tone(a, t, 'triangle', f * 2.003, 0.014, 0.008, 1.0);
-      tone(a, t, 'sine', f * 3, 0.012, 0.008, 0.5);
+      tone(a, t, 'triangle', f * 2.003, 0.007, 0.008, 1.0);
     },
     // hand saw: three back-and-forth strokes of swept, bandpassed noise
     saw: function (a, f, t) {
@@ -592,9 +591,9 @@
     mouse.x = -9999; mouse.y = -9999;
   });
 
-  // 'click' (not pointerdown): fires only on a real mouse click or a
-  // completed tap, never when a touch scroll or drag begins
-  window.addEventListener('click', function (e) {
+  // mouse: strike on press for a percussive feel. touch: wait for a
+  // completed tap (click), so starting a scroll never makes a sound.
+  function strike(e) {
     if (e.target && e.target.closest && e.target.closest('a, #instruments')) return;
     play(e.clientX, e.clientY);
     for (var i = 0; i < dots.length; i++) {
@@ -609,6 +608,14 @@
         d.glow = Math.max(d.glow, 1 - dist / 220);
       }
     }
+  }
+  var lastPointerType = 'mouse';
+  window.addEventListener('pointerdown', function (e) {
+    lastPointerType = e.pointerType || 'mouse';
+    if (lastPointerType === 'mouse') strike(e);
+  });
+  window.addEventListener('click', function (e) {
+    if (lastPointerType !== 'mouse') strike(e);
   });
 
   function frame() {
